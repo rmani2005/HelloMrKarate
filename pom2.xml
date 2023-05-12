@@ -78,9 +78,16 @@
         <developerConnection>scm:git:https://github.com/${repo.owner}/${repo.name}.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
-
-    <build>
-        <testResources>
+	
+	    
+<profiles>
+	<profile>
+        <id>smoke</id>
+        <activation>
+            <activeByDefault>false</activeByDefault>
+        </activation>
+        <build>
+			  <testResources>
             <testResource>
                 <directory>src/test/java</directory>
                 <excludes>
@@ -88,38 +95,95 @@
                 </excludes>
             </testResource>
         </testResources>
-
-        <plugins>
-            <plugin>
+            <plugins>
+				 <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${maven-surefire-plugin.version}</version>
-                   <configuration>
-<!--				        <includes>-->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                     <version>${maven-surefire-plugin.version}</version>
+                    <configuration>
+<!--						<includes>-->
 <!--				            <include>src/test/java/karate/*.java</include>-->
 <!--				        </includes>-->
-  							 <systemProperties>
-				            <karate.options>tags @smoke</karate.options> 
-				        </systemProperties>          
-    				</configuration>
-            </plugin>
-
-            <plugin>
+				        <systemProperties>
+				            <karate.options>--tags @regresion</karate.options>
+				        </systemProperties>    
+                        <systemPropertyVariables>
+                            <env>test</env>
+                            <properties.file>src/test/resources/applicationTest.properties</properties.file>
+                        </systemPropertyVariables>
+                        <suiteXmlFiles>
+                            <suiteXmlFile>src/test/resources/dev1.testng.xml</suiteXmlFile>
+                        </suiteXmlFiles>
+                    </configuration>
+                </plugin>
+                   <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
                 <version>${maven-release-plugin.version}</version>
-       <!--        <configuration>
+               <!-- <configuration>
                     <goals>install</goals>
                     <tagNameFormat>v@{project.version}</tagNameFormat>
                 </configuration> -->
             </plugin>
-        </plugins>
-    </build>
+            </plugins>
+        </build>
+    </profile>
+    <profile>
+        <id>regression</id>
+        <activation>
+            <activeByDefault>false</activeByDefault>
+        </activation>
+        <build>
+			  <testResources>
+            <testResource>
+                <directory>src/test/java</directory>
+                <excludes>
+                    <exclude>**/*.java</exclude>
+                </excludes>
+            </testResource>
+        </testResources>
+            <plugins>
+				 <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                     <version>${maven-surefire-plugin.version}</version>
+                    <configuration>
+<!--						<includes>-->
+<!--				            <include>src/test/java/karate/*.java</include>-->
+<!--				        </includes>-->
+				        <systemProperties>
+				            <karate.options>--tags @regression</karate.options>
+				        </systemProperties>    
+                        <systemPropertyVariables>
+                            <env>dev</env>
+                            <properties.file>src/test/resources/applicationDev.properties</properties.file>
+                        </systemPropertyVariables>
+                        <suiteXmlFiles>
+                         <!--   <suiteXmlFile>src/test/resources/dev1.testng.xml</suiteXmlFile> -->
+                        </suiteXmlFiles>
+                    </configuration>
+                </plugin>
+                   <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>${maven-release-plugin.version}</version>
+                <!-- <configuration>
+                    <goals>install</goals>
+                    <tagNameFormat>v@{project.version}</tagNameFormat>
+                </configuration> -->
+            </plugin>
+            </plugins>
+        </build>
+    </profile>
+</profiles>
 
 </project>
 

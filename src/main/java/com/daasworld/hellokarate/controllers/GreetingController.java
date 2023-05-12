@@ -14,7 +14,7 @@ public class GreetingController {
     // $ curl localhost:8080/api/hello
     @GetMapping(value = "/api/hello", produces = "application/txt")
     public String greet(@RequestParam(required=false, defaultValue = "world") String name) {
-        logger.info("greet() called");
+        logger.info("greet()called");
         return String.format("Hello %s!", name);
-    }
+    } 
 }
