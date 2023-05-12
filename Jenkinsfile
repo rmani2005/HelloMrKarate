@@ -1,4 +1,4 @@
-#Groovy
+#!Groovy
 
 pipeline
 {
@@ -6,19 +6,19 @@ agent none
 
 stages {
 	stage('Precondition-Maven Install')
-	{
-		agent
 		{
-			docker
-			 { 
-			image 'maven:3.6.3'
+			agent
+			{
+				docker
+				 { 
+				image 'maven:3.6.3'
+				}
 			}
 		}
+		steps
+		{
+			sh 'mvn clean install'
+		}
 	}
-	steps
-	{
-		sh 'mvn clean install'
-	}
-}
 }
 
