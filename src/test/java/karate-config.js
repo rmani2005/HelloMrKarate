@@ -1,6 +1,9 @@
 function fn() {
 
 	var env=karate.env;
+	var protocol = "";
+	var host = "";
+	var port = "";
 	karate.log('Karate.env System Property Value:', env);
 	var hostIP=System.property(
 	if(!env){

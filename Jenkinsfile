@@ -1,31 +1,19 @@
-#!groovy
-
 pipeline {
-        agent none  stages {
-        stage('Maven Install') {
-        agent {
-        docker {
-                image 'maven:3.5.0'
+    agent any
+    stages {
+        stage('Build') {
+            agent {
+                docker {
+                    image 'maven:3.6.2'
+                    // Run the container on the node specified at the
+                    // top-level of the Pipeline, in the same workspace,
+                    // rather than on a new node entirely:
+                    //reuseNode true
+                }
+            }
+            steps {
+                sh 'mvn clean install'
+            }
         }
-      }
-      steps {
-        sh 'mvn clean install'
-      }
     }
-    stage('Docker Build') {
-        agent any
-      steps {
-        sh 'docker build -t shanem/spring-petclinic:latest .'
-      }
-    }
-    stage('Docker Push') {
-        agent any
-      steps {
-        withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
-                sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
-          sh 'docker push shanem/spring-petclinic:latest'
-        }
-      }
-    }
-  }
 }
