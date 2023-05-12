@@ -7,6 +7,7 @@ agent none
 stages {
 	stage('Precondition-Maven Install')
 		{
+		steps{
 			agent
 			{
 				docker
@@ -15,7 +16,8 @@ stages {
 				}
 			}
 		}
-		stage('Mvn Clean')
+		}
+		steps
 		{
 			sh 'mvn clean install'
 		}
