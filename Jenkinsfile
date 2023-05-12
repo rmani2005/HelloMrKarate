@@ -15,7 +15,7 @@ stages {
 				}
 			}
 		}
-		steps
+		stage('Mvn Clean')
 		{
 			sh 'mvn clean install'
 		}
