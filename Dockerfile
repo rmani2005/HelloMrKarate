@@ -1,5 +1,9 @@
 #Docker file for building the image for Spring boot application
 FROM maven:3.8-jdk-11 as maven_build
+
+ENV myVariable = "This is myVaraible value from Dockerfile"
+ENV hostIP = ""
+
 WORKDIR /app
 VOLUME /tmp
 
@@ -21,3 +25,4 @@ COPY /target/*.jar /app/hello-karate-1.0.2-SNAPSHOT.jar
 #run the app
 ENV JAVA_OPTS ""
 CMD [ "bash", "-c", "java ${JAVA_OPTS} -jar hello-karate-1.0.2-SNAPSHOT.jar"]
+ENV hostIP = ""
