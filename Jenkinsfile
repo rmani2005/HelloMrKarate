@@ -20,7 +20,7 @@ pipeline {
 		{
 			agent any
 		      steps {
-			sh 'docker build -t manikandanravi9/hellomrkarate-dockerlatest .'
+			sh 'docker build -t manikandanravi9/hellomrkarate-docker:latest .'
 			#sh 'docker push manikandanravi9/hellomrkarate-docker:latest .'
 			
 			#To use the access token from your Docker CLI client:
