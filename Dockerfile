@@ -14,7 +14,7 @@ COPY src ./src
 
 # To package the application
 #COPY src ./src
-RUN mvn clean package -Dmaven.test.skip
+RUN mvn clean package -Dmaven.test.skip=true
 
 ########run stage########
 FROM openjdk:11
