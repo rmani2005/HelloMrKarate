@@ -24,5 +24,5 @@ COPY /target/*.jar /app/hello-karate-1.0.2-SNAPSHOT.jar
 
 #run the app
 ENV JAVA_OPTS ""
-CMD [ "bash", "-c", "java ${JAVA_OPTS} -jar hello-karate-1.0.2-SNAPSHOT.jar"]
+#CMD [ "bash", "-c", "java ${JAVA_OPTS} -jar hello-karate-1.0.2-SNAPSHOT.jar"]
 ENV hostIP = ""
