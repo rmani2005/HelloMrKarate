@@ -10,12 +10,12 @@ pipeline {
                     // top-level of the Pipeline, in the same workspace,
                     // rather than on a new node entirely:
                     reuseNode true
-               	 }
-            		}
-            	steps {
+			 }
+			}
+		steps {
                 sh 'mvn clean package -Dmaven.test.skip=true'
-           	 }
-        		}
+		 }
+		}
 		stage('Docker Build') 
 		{
 			agent any
