@@ -4,25 +4,28 @@ FROM maven:3.8-jdk-11 as maven_build
 ENV myVariable = "This is myVaraible value from Dockerfile"
 ENV hostIP = ""
 
-WORKDIR /app
+#WORKDIR /app
 VOLUME /tmp
 
 COPY pom.xml .    
 COPY src ./src
 
-#RUN mvn clean package -Dmaven.test.skip && rm -r target
+#RUN mvn clean package install -Dmaven.test.skip=true && rm -r target
 
+ARG JAR_NAME="hello-karate-1.0.2-SNAPSHOT"
 # To package the application
 #COPY src ./src
-RUN mvn clean package -Dmaven.test.skip=true
+RUN mvn install -Dmaven.test.skip=true
 
 ########run stage########
-FROM openjdk:11
-WORKDIR /app
+#FROM openjdk:11
+#WORKDIR /app
+ARG JAR_NAME="hello-karate-1.0.2-SNAPSHOT"
 
-COPY /target/*.jar /app/hello-karate-1.0.2-SNAPSHOT.jar
+#COPY --from=maven_build /target/hello-karate-1.0.2-SNAPSHOT.jar /app/hello-karate-1.0.2-SNAPSHOT.jar
 
 #run the app
 ENV JAVA_OPTS ""
+#EXPOSE 8081
 #CMD [ "bash", "-c", "java ${JAVA_OPTS} -jar hello-karate-1.0.2-SNAPSHOT.jar"]
 ENV hostIP = ""
