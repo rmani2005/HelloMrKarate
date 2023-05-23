@@ -15,9 +15,9 @@ environment {
                     reuseNode true
 			 }
 			}
-		steps {
+		//steps {
                 //sh 'mvn clean package -Dmaven.test.skip=true'
-		 }
+		// }
 		}
 		stage('Docker Build') 
 		{
