@@ -1,5 +1,8 @@
 pipeline {
     agent none
+environment {
+    DOCKERHUB_CREDENTIALS = credentials('manikandanravi9')
+  }
     stages {
         stage('Build') {
             agent {
@@ -13,7 +16,7 @@ pipeline {
 			 }
 			}
 		steps {
-                sh 'mvn clean package -Dmaven.test.skip=true'
+                //sh 'mvn clean package -Dmaven.test.skip=true'
 		 }
 		}
 		stage('Docker Build') 
@@ -23,6 +26,16 @@ pipeline {
 			sh 'docker build -t hellomrkarate-docker:latest .'
 			}
    
-    		}
+		}
+		stage('Login') {
+		      steps {
+		        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+		      }
+		    }
+		stage('Push') {
+		      steps {
+		        sh 'docker push manikandanravi/hellomrkarate-docker'
+		      }
+		    }
 }
 }
