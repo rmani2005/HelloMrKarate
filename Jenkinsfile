@@ -1,10 +1,14 @@
 pipeline {
-    agent any
-environment {
+  agent any
+  options {
+    buildDiscarder(logRotator(numToKeepStr: '35'))
+  }
+  environment {
     DOCKERHUB_CREDENTIALS = credentials('dockerhub')
   }
-    stages {
-        stage('Build') {
+  stages {
+  
+   stage('PreCondition') {
             agent {
                 docker {
                     image 'maven:3.6.3'
@@ -15,24 +19,28 @@ environment {
                     reuseNode true
 			 }
 			}
-		}
-		stage('Docker Build') 
-		{
-			agent any
-		      steps {
-			sh 'docker build -t hellomrkarate-docker:latest .'
-			}
-   
-		}
-		stage('Login') {
-		      steps {
-		        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-		      }
-		    }
-		stage('Push') {
-		      steps {
-		        sh 'docker push manikandanravi/hellomrkarate-docker'
-		      }
-		    }
+		}  
+    stage('Build') {
+      steps {
+        sh 'docker build -t manikandanravi9/hellomrkarate-docker:latest .'
+      }
+    }
+    stage('Login') {
+      steps {
+        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+      }
+    }
+    stage('Push') {
+      steps {
+        sh 'docker push manikandanravi9/hellomrkarate-docker'
+      }
+    }
+  }
+  post {
+    always {
+      sh 'docker logout'
+    }
+  }
 }
-}
+		 
+		 
