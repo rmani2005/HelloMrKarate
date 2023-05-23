@@ -9,10 +9,10 @@
     </parent>
     <groupId>com.daasworld.hellokarate</groupId>
     <artifactId>hello-karate</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.0.3-SNAPSHOT</version>
     <name>hello-karate</name>
     <description>Getting started with Karate</description>
-
+	<packaging>jar</packaging>
     <properties>
         <java.version>11</java.version>
 
@@ -21,7 +21,9 @@
 
         <maven-surefire-plugin.version>2.22.1</maven-surefire-plugin.version>
         <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
-
+        
+		<start-class>com.daasworld.hellokarate.HelloKarateApplication</start-class>
+		
         <!-- used for release management -->
         <repo.owner>sdaas</repo.owner>
         <repo.name>hello-karate</repo.name>
@@ -93,16 +95,37 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                 <configuration>
+                <mainClass>${start-class}</mainClass>
+                <layout>JAR</layout>
+            </configuration>
+                <executions>
+                <execution>
+                    <goals>
+                        <goal>repackage</goal>
+                    </goals>
+                </execution>
+            </executions>
             </plugin>
 		 <plugin>
 		    <groupId>org.apache.maven.plugins</groupId>
 		    <artifactId>maven-jar-plugin</artifactId>
+		    <executions>
+                    <execution>
+                        <id>analyze</id>
+                        <phase>package</phase>
+                        <configuration>
+                            <failBuild>true</failBuild>
+                            <ignoreDirect>false</ignoreDirect>
+                        </configuration>
+                    </execution>
+                </executions>
 		    <configuration>
 		      <archive>
 		        <manifest>
 		          <addClasspath>true</addClasspath>
 		          <classpathPrefix>src/</classpathPrefix>
-		          <mainClass>src.main.java.com.daasworld.hellokarate.HelloKarateApplication</mainClass>
+		          <mainClass>${start-class}</mainClass>
 		        </manifest>
 		      </archive>
 		    </configuration>
@@ -130,6 +153,49 @@
                     <tagNameFormat>v@{project.version}</tagNameFormat>
                 </configuration> -->
             </plugin>
+            
+   
+    <plugin>
+	<groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-assembly-plugin</artifactId>
+      <configuration>
+        <archive>
+          <manifest>
+            <mainClass>${start-class}</mainClass>
+          </manifest>
+        </archive>
+        <descriptorRefs>
+          <descriptorRef>jar-with-dependencies</descriptorRef>
+        </descriptorRefs>
+      </configuration>
+      <executions>
+        <execution>
+          <id>make-assembly</id> <!-- this is used for inheritance merges -->
+          <phase>package</phase> <!-- bind to the packaging phase -->
+          <goals>
+            <goal>single</goal>
+          </goals>
+        </execution>
+      </executions>
+    </plugin>
+    
+    <plugin>
+    <groupId>com.jolira</groupId>
+    <artifactId>onejar-maven-plugin</artifactId>
+    <executions>
+        <execution>
+            <configuration>
+                <mainClass>${start-class}</mainClass>
+                <attachToBuild>true</attachToBuild>
+                <filename>manikandanravi.jar</filename>
+            </configuration>
+            <goals>
+                <goal>one-jar</goal>
+            </goals>
+        </execution>
+    </executions>
+</plugin>
+            
         </plugins>
     </build>
 
