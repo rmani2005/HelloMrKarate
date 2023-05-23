@@ -22,17 +22,7 @@ pipeline {
 		      steps {
 			sh 'docker build -t hellomrkarate-docker:latest .'
 			}
-			steps 
-			      {
-				DOCKERHUB_CREDENTIALS=credentials('hello-karate-dockerhub-token')
-				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-				}  
-		 steps {
-			sh 'docker PUSH manikandanravi9/hellomrkarate-dockerlatest .'
-		      }
-		    }
-		    
-	
    
-    }
+    		}
+}
 }
