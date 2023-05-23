@@ -21,25 +21,18 @@ pipeline {
 			agent any
 		      steps {
 			sh 'docker build -t hellomrkarate-docker:latest .'
-				}
-		    }
-		    
-		stage('Docker Login') 
-		{
-			      steps 
+			}
+			steps 
 			      {
 				DOCKERHUB_CREDENTIALS=credentials('hello-karate-dockerhub-token')
 				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
 				}  
-		}
-		 stage('Docker Hub Push or Push to S3 bucket') 
-		{
-		  steps {
+		 steps {
 			sh 'docker PUSH manikandanravi9/hellomrkarate-dockerlatest .'
 		      }
-		} 
+		    }
 		    
-   
+	
    
     }
 }
