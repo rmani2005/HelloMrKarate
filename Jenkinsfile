@@ -1,5 +1,5 @@
 pipeline {
-    agent none
+    agent any
 environment {
     DOCKERHUB_CREDENTIALS = credentials('dockerhub')
   }
@@ -15,9 +15,6 @@ environment {
                     reuseNode true
 			 }
 			}
-		//steps {
-                //sh 'mvn clean package -Dmaven.test.skip=true'
-		// }
 		}
 		stage('Docker Build') 
 		{
