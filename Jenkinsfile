@@ -10,7 +10,7 @@ agent any
   stages {
     stage('Build') {
       steps {
-      	sh 'echo "XXXXXXXXXXXXBuilding block started XXXXXXXXXXXXXXXXXXXXXXXXx"'
+	sh 'echo "XXXXXXXXXXXXBuilding block started XXXXXXXXXXXXXXXXXXXXXXXXx"'
         sh 'docker build -t manikandanravi9/hellomrkarate-docker:latest .'
         sh 'echo "XXXXXXXXXXXXBuilding block Completed XXXXXXXXXXXXXXXXXXXXXXXXx"'
       }
