@@ -38,7 +38,7 @@ ENV JAVA_OPTS ""
 EXPOSE 8082
 #ADD hello-karate-1.0.2-SNAPSHOT.jar app.jar
 CMD ["java","-jar","hello-karate-1.0.3-SNAPSHOT.jar"]
-#CMD [ "bash", "-c", "java ${JAVA_OPTS} -jar hello-karate-1.0.2-SNAPSHOT.jar"]
+ENTRYPOINT ["java","-jar","hello-karate-1.0.3-SNAPSHOT.jar"]
 ENV hostIP = ""
 
 #Run mode
