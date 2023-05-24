@@ -8,7 +8,7 @@ agent any
   }
   
   stages {
-        stage('PreCOnd') {
+  	stage('PreCond') {
             agent {
                 docker {
                     image 'maven:3.6.3'
@@ -18,8 +18,8 @@ agent any
                 sh 'mvn --version'
             }
         }
-    }
-  stages {
+  
+  
     stage('Build') {
       steps {
 	sh 'echo "XXXXXXXXXXXXBuilding block started XXXXXXXXXXXXXXXXXXXXXXXXx"'
