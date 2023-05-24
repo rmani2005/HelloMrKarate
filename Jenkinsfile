@@ -6,7 +6,19 @@ agent any
   environment {
     DOCKERHUB_CREDENTIALS = credentials('manikandanravi9')
   }
- 
+  
+  stages {
+        stage('PreCOnd') {
+            agent {
+                docker {
+                    image 'maven:3.6.3'
+                }
+            }
+            steps {
+                sh 'mvn --version'
+            }
+        }
+    }
   stages {
     stage('Build') {
       steps {
@@ -26,11 +38,6 @@ agent any
         sh 'echo "XXXXXXXXXXXXPushing the Docker hub image block started XXXXXXXXXXXXXXXXXXXXXXXXx"'
         sh 'docker push manikandanravi9/hellomrkarate-docker'
       }
-    }
-  }
-  post {
-    always {
-      sh 'docker logout'
     }
   }
 }
