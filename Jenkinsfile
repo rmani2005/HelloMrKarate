@@ -6,17 +6,12 @@ pipeline {
   environment {
     DOCKERHUB_CREDENTIALS = credentials('dockerhub')
   }
+  agent {
+         docker {
+            image 'maven:3.6.3'
+		 }
+   } 
   stages {
-  
-   stage('PreCondition') {
-   steps {
-            agent {
-                docker {
-                    image 'maven:3.6.3'
-			 }
-			}
-	
-	}	}  
     stage('Build') {
       steps {
         sh 'docker build -t manikandanravi9/hellomrkarate-docker:latest .'
