@@ -28,12 +28,9 @@ pipeline
                 success 
                 {
                     junit 'target/surefire-reports/**/*.xml' 
+                    echo 'Successfully!'
                 }
                 
-                success 
-                {
-            	echo 'Successfully!'
-		        }
 		        failure {
 		        
 		            echo 'Failed!'
