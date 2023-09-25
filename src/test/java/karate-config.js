@@ -1,33 +1,25 @@
-function fn() {
 
-	var env=karate.env;
-	var protocol = "";
-	var host = "";
-	var port = "";
-	karate.log('Karate.env System Property Value:', env);
-	var hostIP=System.property(
-	if(!env){
-		env='test';
-	}	
-	
-	karate.log('Karate.env System Property Value:', env);
-    var config = {
-        baseUrl : 'http://localhost:8081',
-        port:8081,
-		//propertyFile:applicationTest.properties
-    };
 
-	if(env='test'){	
-		baseUrl:http://localhost:8081';
-		port=8081;
-		//propertyFile:applicationTest.properties;
-		karate.log('Karate.env System Property Value:', env);
-	}else if(env='dev'){
-		baseUrl:http://localhost:8082';
-		port=8082;
-		//propertyFile:applicationDev.properties;
-		karate.log('Karate.env System Property Value:', env);
-		}
-
-    return config;
+function fn() {   
+  var env = karate.env; // get java system property 'karate.env'
+  karate.log('karate.env system property was:', env);
+  if (!env) {
+    env = 'dev'; // a custom 'intelligent' default
+  }
+  var config = { // base config JSON
+    appId: 'my.app.id',
+    appSecret: 'my.secret',
+    someUrlBase: 'https://some-host.com/v1/auth/',
+    anotherUrlBase: 'https://another-host.com/v1/'
+  };
+  if (env == 'stage') {
+    // over-ride only those that need to be
+    config.someUrlBase = 'https://stage-host/v1/auth';
+  } else if (env == 'e2e') {
+    config.someUrlBase = 'https://e2e-host/v1/auth';
+  }
+  // don't waste time waiting for a connection or if servers don't respond within 5 seconds
+  karate.configure('connectTimeout', 5000);
+  karate.configure('readTimeout', 5000);
+  return config;
 }

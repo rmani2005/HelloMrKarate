@@ -1,4 +1,4 @@
-package karate;
+package karate.Trigger;
 
 import com.daasworld.hellokarate.HelloKarateApplication;
 import com.intuit.karate.KarateOptions;
@@ -14,16 +14,16 @@ import org.junit.jupiter.api.Tags;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @KarateOptions(tags = {"@smoke"})
-public class KarateSingleTest {
+public class KarateSingleTest 
+{
 
     @Karate.Test
     
     //@Tags("@core")
-    void parallelTest() {
-    	
+    void parallelTest() 
+    {
     	Results result=Runner.path("classpath:karate/hello/hello1.feature").parallel(5);
-    	assertEquals(0,result.getErrors(),result.getErrorMessages());
-        
+    	assertEquals(0,result.getErrors(),result.getErrorMessages());   
     }
     
     

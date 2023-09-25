@@ -1,4 +1,4 @@
-package karate;
+package karate.Trigger;
 
 import com.daasworld.hellokarate.HelloKarateApplication;
 import com.intuit.karate.junit5.Karate;
@@ -23,7 +23,8 @@ class KarateTests {
     }
 
     @Karate.Test
-    Karate createPersonTest() {
+    Karate createPersonTest() 
+    {
         return Karate.run("classpath:karate/person/create.feature");
     }
 

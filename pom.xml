@@ -17,6 +17,7 @@
 		<java.version>11</java.version>
 		<junit-jupiter.version>5.4.0</junit-jupiter.version>
 		<karate.version>1.2.0</karate.version>
+		<gatling.plugin.version>1.2.0</gatling.plugin.version>
 		<maven-surefire-plugin.version>2.22.1</maven-surefire-plugin.version>
 		<maven-release-plugin.version>2.5.3</maven-release-plugin.version>
 		<start-class>com.daasworld.hellokarate.HelloKarateApplication</start-class>
@@ -53,6 +54,14 @@
 			<version>${junit-jupiter.version}</version>
 			<scope>test</scope>
 		</dependency>
+		
+		<dependency>
+    <groupId>com.intuit.karate</groupId>
+    <artifactId>karate-gatling</artifactId>
+    <version>${karate.version}</version>
+    <scope>test</scope>
+</dependency> 
+		
 		<!-- https://mvnrepository.com/artifact/com.intuit.karate/karate-junit5 -->
 		<dependency>
 			<groupId>com.intuit.karate</groupId>
@@ -119,15 +128,15 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>${maven-surefire-plugin.version}</version>
-				<!--<configuration>
-		      				  <includes>
-					            	<include>src/test/java/karate/*.java</include>
-					          </includes>
-  							  <systemProperties>
-				            <karate.options>tags @smoke</karate.options> 
-							<skipTests>true</skipTests>
-				        </systemProperties>          
-    			    </configuration> -->
+				<configuration>
+					<includes>
+						<include>karate/Trigger/KarateParallel.java</include>
+					</includes>
+					<systemProperties>
+						<karate.options>-tags @currentRun</karate.options>
+						<skipTests>false</skipTests>
+					</systemProperties>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -177,6 +186,24 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.sonarsource.scanner.maven</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+				<version>3.4.0.905</version>
+			</plugin>
+						<plugin>
+			      <groupId>io.gatling</groupId>
+			      <artifactId>gatling-maven-plugin</artifactId>
+			      <version>${gatling.plugin.version}</version>
+			      <configuration>
+			          <simulationsFolder>src/test/java</simulationsFolder>
+			          <includes>
+			              <include>karate.Trigger.KarateParallel</include>
+			          </includes>
+			      </configuration>               
+			  </plugin>
+
+
 		</plugins>
 	</build>
 </project>
