@@ -20,6 +20,7 @@ public class KarateParallel
     @Test
     @Tag("parallel")
     @Tag("core")
+    @Tag("currentRun")
     void KarateParallelMethod() 
     {
        // return Karate.run("classpath:karate/hello/helloworld.feature");

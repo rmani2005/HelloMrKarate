@@ -133,7 +133,7 @@
 						<include>karate/Trigger/KarateParallel.java</include>
 					</includes>
 					<systemProperties>
-						<karate.options>-tags @currentRun</karate.options>
+						<!-- <karate.options>-tags @currentRun</karate.options> -->
 						<skipTests>false</skipTests>
 					</systemProperties>
 				</configuration>
