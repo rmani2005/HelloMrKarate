@@ -1,45 +1,39 @@
-pipeline {
-agent any
-  options {
-    buildDiscarder(logRotator(numToKeepStr: '35'))
-  }
-  environment {
-    DOCKERHUB_CREDENTIALS = credentials('manikandanravi9')
-  }
-  
-  stages {
-  	stage('PreCond') {
-            agent {
-                docker {
-                    image 'maven:3.6.3'
-                }
-            }
+pipeline 
+{
+    agent any
+    tools { 
+        maven 'Maven 3.3.9' 
+        jdk '17.0.8.1' 
+    }
+    stages
+    {
+        stage ('Initialize the Maven')
+        {
             steps {
-                sh 'mvn --version'
+                sh '''
+                    echo "PATH = ${PATH}"
+                    echo "M2_HOME = ${M2_HOME}"
+                ''' 
             }
         }
-  
-  
-    stage('Build') {
-      steps {
-	sh 'echo "XXXXXXXXXXXXBuilding block started XXXXXXXXXXXXXXXXXXXXXXXXx"'
-        sh 'docker build -t manikandanravi9/hellomrkarate-docker:latest .'
-        sh 'echo "XXXXXXXXXXXXBuilding block Completed XXXXXXXXXXXXXXXXXXXXXXXXx"'
-      }
+        stage ('Build the maven project with testing parameter') 
+        {
+            steps 
+            {
+                //env.environment
+                //env.module
+                //env.exeType
+                //env.
+                sh 'mvn clean test' 
+            }
+            post 
+            {
+                success 
+                {
+                    junit 'target/surefire-reports/**/*.xml' 
+                }
+            }
+        }
+        
     }
-    stage('Login') {
-      steps {
-       sh 'echo "XXXXXXXXXXXXDocker hub loginstarted XXXXXXXXXXXXXXXXXXXXXXXXx"'
-        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-      }
-    }
-    stage('Push') {
-      steps {
-        sh 'echo "XXXXXXXXXXXXPushing the Docker hub image block started XXXXXXXXXXXXXXXXXXXXXXXXx"'
-        sh 'docker push manikandanravi9/hellomrkarate-docker'
-      }
-    }
-  }
 }
-		 
-		 
